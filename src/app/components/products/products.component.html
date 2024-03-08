@@ -1,1 +1,17 @@
-<p>products works!</p>
+@if (product$ | async; as products) {
+    <div class="=container">
+        <div class="row">
+            @for (product of products.productItems; track product.id) {
+            <ng-container>
+                <div class="card col-md-3">
+                    <img src="{{product.image}}" alt="" />
+                    <h5 class="item-card">{{ product.title }}</h5>
+                    <p class="item-card">{{ product.description }}</p>
+                    <p><strong>Price:</strong>{{ product.price }}</p>
+                    <button class="btn btn-primary">Add to cart</button>
+                </div>
+            </ng-container>
+            }
+        </div>
+    </div>
+}
