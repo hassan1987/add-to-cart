@@ -10,9 +10,11 @@
             <span class="fas fa-search search-icon"></span>
         </div>
 
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" (click)="rediectToCart()">
             <i style="font-size: 30px;" class="fas fa-cart-plus"></i>
-            <div style="font: 10px;" class="badge bg-danger">2</div>
+            @if (cartItem$ | async; as cartItems) {
+            <div style="font: 10px;" class="badge bg-danger">{{cartItems.cartItems.length}}</div>
+            }
         </button>
     </div>
 </header>

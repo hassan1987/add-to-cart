@@ -1,27 +1,28 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { catchError, map } from "rxjs";
+import { BehaviorSubject, catchError, map } from "rxjs";
 import { environment } from "../../app.config.js";
-import { ProductState, initialState } from "../model/product/product-state.js";
 import { Product } from "../model/product/product.js";
-import { Store } from "../store.js";
 
-@Injectable({providedIn: "root"})
-export class ProductService extends Store<ProductState>{
-    // Declare httpclient for call api
-    private readonly http = inject(HttpClient);
-    // Route for all products
-    HTTP_PRDUCTS: string = "/products";
+@Injectable({ providedIn: "root" })
+export class ProductService {
+  // Declare httpclient for call api
+  private readonly http = inject(HttpClient);
+  // Route for all products
+  HTTP_PRDUCTS: string = "/products";
 
-    constructor() {
-        super(initialState);
-    }
+  private productsSubject = new BehaviorSubject<Product[]>([]);
+  public products = this.productsSubject.asObservable();
 
-    // Call api f retrieve all products
-    public getAllProducts(){
-        this.http.get<Product[]>(environment.host+this.HTTP_PRDUCTS)
+  constructor() {
+  }
+
+  // Call api f retrieve all products
+  public getAllProducts() {
+    this.http.get<Product[]>(environment.host + this.HTTP_PRDUCTS)
       .pipe(
         catchError(() => {
+          this.productsSubject.error('An error occurred');
           return [];
         }),
         map((products) => {
@@ -29,13 +30,9 @@ export class ProductService extends Store<ProductState>{
           return products;
         })
       )
-      .subscribe((products) => {
-        const newState: ProductState = {
-            ...this.state,
-            productItems: products
-        };
-        this.setState(newState);
+      .subscribe(products => {
+        this.productsSubject.next(products);
       });
-    }
-    
+  }
+
 }

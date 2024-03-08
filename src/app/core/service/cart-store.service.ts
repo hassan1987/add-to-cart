@@ -14,7 +14,7 @@ export class CartStore extends Store<CartState>{
         console.log('[Cart] Add Cart Item');
         const newState = {
             ...this.state, //cartItems
-            cartItems: [].concat(this.state.cartItems, cartItemToAdd)
+            cartItems: [...this.state.cartItems, cartItemToAdd]
         };
         this.setState(newState);
     }

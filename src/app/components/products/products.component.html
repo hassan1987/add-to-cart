@@ -1,7 +1,8 @@
 @if (product$ | async; as products) {
-    <div class="=container pt-3">
+<ng-container>
+    <div class="=container">
         <div class="row">
-            @for (product of products.productItems; track product.id) {
+            @for (product of products; track product.id) {
             <ng-container>
                 <div class="card col-md-3">
                     <img src="{{product.image}}" alt="" />
@@ -9,7 +10,7 @@
                     <p class="item-card">{{ product.description }}</p>
                     <p><strong>Price:</strong>{{ product.price }}</p>
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-primary">Add to cart</button>
+                        <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
                         <button class="btn btn-info">Detail product</button>
                     </div>
                 </div>
@@ -17,4 +18,5 @@
             }
         </div>
     </div>
+</ng-container>
 }
