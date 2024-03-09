@@ -1,55 +1,66 @@
 @if (cartItem$ | async; as cartItems) {
-<ng-container>
-    <div class="container">
-        <div class="card-table">
-            <div class="cart-product">
-                <table class="table table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Product.No</th>
-                            <th>Product name</th>
-                            <th>Product image</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (cartItem of cartItems.cartItems; track cartItem.productId) {
-                        <tr>
-                            <td>{{cartItem.productId}}</td>
-                            <td>{{cartItem.title}}</td>
-                            <td><img src="{{cartItem.image}}" alt=""></td>
-                            <td>{{cartItem.description}}</td>
-                            <td>{{cartItem.price}}</td>
-                            <td>1</td>
-                            <td>50,000</td>
-                            <td>
-                                <button class="btn btn-danger" (click)="removeCartItem(cartItem)"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
+    @if (cartItems.cartItems.length!=0) {
+    <ng-container>
+        <div class="container">
+            <div class="card-table">
+                <div class="cart-product">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Product.No</th>
+                                <th>Product name</th>
+                                <th>Product image</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (cartItem of cartItems.cartItems; track cartItem.productId) {
+                            <tr>
+                                <td>{{cartItem.productId}}</td>
+                                <td>{{cartItem.title}}</td>
+                                <td><img style="width: 120px;" src="{{cartItem.image}}" alt=""></td>
+                                <td class="td-description">{{cartItem.description}}</td>
+                                <td class="td-common">{{cartItem.price | number : '1.2-2'}} €</td>
+                                <td class="td-common"><input type="number" [(ngModel)]="cartItem.quantity"
+                                        (change)="updateQuantity(cartItem)"></td>
+                                <td>{{cartItem.itemTotal | number : '1.2-2'}} €</td>
+                                <td>
+                                    <button class="btn btn-danger" (click)="removeCartItem(cartItem)"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            }
+                            <tr>
+                                <td colspan="4"></td>
+                                <td><button class="btn btn-danger" (click)="removeAllCart()">Empty Cart</button></td>
+                                <td><button class="btn btn-primary" (click)="redirectToPoductsList()">Shope More</button></td>
+                                <td><button class="btn btn-success">Checkout</button></td>
+                                <td class="td-total"><strong>Grand Total : {{getTotalPrice() | number : '1.2-2'}} €</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</ng-container>
-}
-@else{
-<ng-container>
-    <div class="container">
-        <div class="card">
-            <h5>My basket</h5>
-        </div>
-        <div class="center">
-            <img src="../../../assets/img/store-empty.jpg" alt="">
-            <h4>Your cart is empty!</h4>
-            <h6>Add item to it now</h6>
-            <button class="btn btn-primary">Shop Now</button>
-        </div>
-    </div>
-</ng-container>
+    </ng-container>
+    }
+    @else{
+        <ng-container>
+            <div class="container">
+                <div class="card">
+                    <h5>My basket</h5>
+                </div>
+                <div class="center">
+                    <img src="../../../assets/img/store-empty.jpg" alt="">
+                    <h4>Your cart is empty!</h4>
+                    <h6>Add item to it now</h6>
+                    <button class="btn btn-primary" (click)="redirectToPoductsList()">Shop Now</button>
+                </div>
+            </div>
+        </ng-container>
+        }
 }

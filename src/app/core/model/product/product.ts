@@ -8,4 +8,5 @@ export interface Product {
     category: string;
     image: string;
     rating: Rate;
+    isInCart: boolean;
 }

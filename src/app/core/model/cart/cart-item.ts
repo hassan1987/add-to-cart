@@ -6,4 +6,5 @@ export interface CartItem {
     description: string;
     quantity: number;
     itemTotal: number;
+    isInCart: boolean;
 }

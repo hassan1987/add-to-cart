@@ -17,6 +17,10 @@ h6 {
     font-weight: 400;
 }
 
+.td-total{
+    width: 9%;
+}
+
 .center img {
     text-decoration: none;
     color: inherit;
@@ -49,6 +53,20 @@ h6 {
     border-radius: 3px !important;
 }
 
-.container{
+.container {
     margin-top: 20px;
+}
+
+table tbody tr td input {
+    width: 120px;
+    border-radius: 11px
+}
+
+.td-description {
+   width: 25%;
+   max-width: 300px;
+}
+
+.td-common{
+    width: 12%;
 }

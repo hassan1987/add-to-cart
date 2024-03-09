@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="card">
+        <div class="container-fliud">
+            <div class="wrapper row">
+                <div class="preview col-md-6">
+                    
+                    <div class="preview-pic tab-content">
+                      <div class="tab-pane active" id="pic-1"><img src="{{this.selectedProduct().image}}" /></div>
+                    </div>
+                </div>
+                <div class="details col-md-6">
+                    <h3 class="product-title">{{this.selectedProduct().title}}</h3>
+                    <div class="rating">
+                        <star-rating [starType]="'svg'" [rating]="this.selectedProduct().rating.rate"></star-rating>
+                        <span class="review-no">{{this.selectedProduct().rating.count}} reviews</span>
+                    </div>
+                    <p class="product-description">{{this.selectedProduct().description}}</p>
+                    <h4 class="price">current price: <span>${{this.selectedProduct().price | number : '1.2-2'}}</span></h4>
+                    <div class="action">
+                        <button class="add-to-cart btn btn-primary" [disabled]="this.selectedProduct().isInCart" (click)="addToCart(this.selectedProduct())" type="button">add to cart</button>
+                        <button class="add-to-cart btn btn-success" (click)="rediectToProdctsList()" type="button">More shopping</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

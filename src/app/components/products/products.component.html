@@ -1,20 +1,25 @@
 @if (product$ | async; as products) {
 <ng-container>
-    <div class="=container">
+    <div class="container">
         <div class="row">
-            @for (product of products; track product.id) {
+            @for (product of products | filter:searchKey:'title'; track product.id) {
             <ng-container>
                 <div class="card col-md-3">
                     <img src="{{product.image}}" alt="" />
                     <h5 class="item-card">{{ product.title }}</h5>
                     <p class="item-card">{{ product.description }}</p>
-                    <p><strong>Price:</strong>{{ product.price }}</p>
+                    <p><strong>Price : </strong>{{ product.price }}€</p>
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
-                        <button class="btn btn-info">Detail product</button>
+                        <button class="btn btn-primary" (click)="addToCart(product)" [disabled]="product.isInCart">Add to cart</button>
+                        <button class="btn btn-info" (click)="detailProduct(product)">Detail product</button>
                     </div>
                 </div>
             </ng-container>
+            }
+            @empty {
+                <div>
+                    <img src="../../../assets/img/nproduct.png"/>
+                </div>
             }
         </div>
     </div>

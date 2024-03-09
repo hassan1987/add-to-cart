@@ -5,7 +5,8 @@
             </i>
             <strong style="font-size: 30px;margin-left: 15px;">Shop</strong>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="search products by name">
+                <input type="text" class="form-control" placeholder="search products by name" [(ngModel)]="searchTerm"
+                    (keyup)="search($event)">
             </div>
             <span class="fas fa-search search-icon"></span>
         </div>

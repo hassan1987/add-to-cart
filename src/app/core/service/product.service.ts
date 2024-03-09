@@ -1,21 +1,24 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, inject } from "@angular/core";
-import { BehaviorSubject, catchError, map } from "rxjs";
+import { Injectable, inject, signal } from "@angular/core";
+import { BehaviorSubject, Observable, catchError, map } from "rxjs";
 import { environment } from "../../app.config.js";
 import { Product } from "../model/product/product.js";
+import { CartState } from "../model/cart/cart-state.js";
+import { CartStore } from "./cart-store.service.js";
 
 @Injectable({ providedIn: "root" })
 export class ProductService {
   // Declare httpclient for call api
   private readonly http = inject(HttpClient);
+  private readonly cartService = inject(CartStore);
   // Route for all products
   HTTP_PRDUCTS: string = "/products";
 
   private productsSubject = new BehaviorSubject<Product[]>([]);
   public products = this.productsSubject.asObservable();
+  public search = new BehaviorSubject<string>("");
 
-  constructor() {
-  }
+  public selectedProduct = signal({});
 
   // Call api f retrieve all products
   public getAllProducts() {
@@ -31,6 +34,13 @@ export class ProductService {
         })
       )
       .subscribe(products => {
+        this.cartService.state.cartItems.forEach(itemCart => {
+          products.map(itemProduct => {
+            if (itemProduct.id === itemCart.productId) {
+              itemProduct.isInCart = itemCart.isInCart;
+            }
+          });
+        });
         this.productsSubject.next(products);
       });
   }
